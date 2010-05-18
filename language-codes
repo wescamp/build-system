@@ -1,0 +1,31 @@
+# This file is to store language codes
+
+# trunk
+if [ "${VERSION}" = "trunk" ]; then
+  LINGUAS="af ar bg ca ca_ES@valencia cs da de el en_GB en@shaw es eo et eu fi fr fur_IT gl he hr hu id is it ja ko la lt lv mk mr nl nb_NO pl pt pt_BR racv ro ru sk sl sr sr@ijekavian sr@ijekavianlatin sr@latin sv tl tr vi zh_CN zh_TW"
+fi
+
+# 1.8
+if [ "${VERSION}" = "1.8" ]; then
+  LINGUAS="af ar bg ca ca_ES@valencia cs da de el en_GB en@shaw es eo et eu fi fr fur_IT gl he hr hu id is it ja ko la lt lv mk mr nl nb_NO pl pt pt_BR racv ro ru sk sl sr sr@ijekavian sr@ijekavianlatin sr@latin sv tl tr vi zh_CN zh_TW"
+fi
+
+# 1.6
+if [ "${VERSION}" = "1.6" ]; then
+  LINGUAS="af ar bg ca ca_ES@valencia cs da de el en_GB es eo et eu fi fr fur_IT gl he hr hu id is it ja ko la lt lv mk mr nl nb_NO pl pt pt_BR racv ro ru sk sl sr sr@latin sv tl tr zh_CN zh_TW"
+fi
+
+# 1.4
+if [ "${VERSION}" = "1.4" ]; then
+    LINGUAS="af ar bg ca ca_ES@valencia cs da de el en_GB es eo et eu fi fr fur_IT gl he hr hu id it ja ko la lt lv mk nl nb_NO pl pt pt_BR ro ru sk sl sr sr@latin sv tl tr zh_CN zh_TW"
+fi
+
+# 1.2
+if [ "${VERSION}" = "1.2" ]; then
+    LINGUAS="af bg ca ca_ES@valencia cs da de el en_GB es eo et eu fi fr gl_ES he hu id it ja ko la nl nb_NO pl pt pt_BR ro ru sk sl sr sr@latin sv tl tr zh_CN"
+fi
+
+# 1.0
+if [ "${VERSION}" = "1.0" ]; then
+    LINGUAS="af bg ca cs da de el_GR en_GB eo es et eu fi fr hu it ja la nl no oc pl pt_BR ru sk sl sr sv tr zh_CN"
+fi
