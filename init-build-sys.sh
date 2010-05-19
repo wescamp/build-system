@@ -265,7 +265,7 @@ echo $LINGUAS > $OUTPUT_DIRECTORY/po/LINGUAS
 
 # Replace placeholders with the value of ADDON_DIRECTORY_NAME
 echo ""
-echo "Replacing placeholder value 'mu' with '$ADDON_DIRECTORY_NAME' using 'sed' in..."
+echo "Replacing placeholder value 'foobar' with '$ADDON_DIRECTORY_NAME' using 'sed' in..."
 echo "... '$OUTPUT_DIRECTORY/campaign.def'..."
 sed -i s/foobar/$ADDON_DIRECTORY_NAME/g $OUTPUT_DIRECTORY/campaign.def
 echo "... '$OUTPUT_DIRECTORY/po/Makefile'..."
@@ -295,7 +295,7 @@ cd $OUTPUT_DIRECTORY/po
 # Generate po files
 echo ""
 echo "Generating po files..."
-verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator; done'..."
+verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done
 
 # Done!
