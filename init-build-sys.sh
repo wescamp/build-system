@@ -13,6 +13,18 @@
 #
 # wmltrans.pm:
 # http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmltrans.pm
+#
+#  Copyright © 2010 by Steven Panek <Majora700@gmail.com>
+#  Part of the Wesnoth Campaign Translations project
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License version 2
+#  or at your option any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY.
+#
+#  See the COPYING file for more details.
+#
 
 __CMDLINE=$*
 
