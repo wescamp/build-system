@@ -290,7 +290,7 @@ cd $INPUT_DIRECTORY
 # Merge stuff from the target addon with the pot using wmlxgettext
 echo ""
 echo "Merging strings from the target addon with the pot using wmlxgettext..."
-`sh $OUTPUT_DIRECTORY/po/FINDCFG`; wmlxgettext|cat $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
+wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
 
 # Enter 'po'
 echo ""
