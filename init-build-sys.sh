@@ -113,7 +113,7 @@ verbose_message()
 
 check_for_thingy "wmltrans.pm" "http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmltrans.pm"
 check_for_perl_wmlxgettext
-check_for_thingy "lbundle-check.py" "http://websvn.kde.org/*checkout*/trunk/l10n-support/scripts/lbundle-check.py"
+# check_for_thingy "lbundle-check.py" "http://websvn.kde.org/*checkout*/trunk/l10n-support/scripts/lbundle-check.py"
 
 # Set some variables
 
