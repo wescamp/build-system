@@ -1,8 +1,6 @@
 #! /bin/bash
 # $Id$
 #
-# Version 0.1,0
-#
 # Requires: Bash, gettext, and wmlxgettext (the Perl version)
 #
 # lbundle.py:
