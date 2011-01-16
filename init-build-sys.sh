@@ -12,7 +12,7 @@
 # wmltrans.pm:
 # http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmltrans.pm
 #
-#  Copyright © 2010 by Steven Panek <Majora700@gmail.com>
+#  Copyright © 2010, 2011 by Steven Panek <Majora700@gmail.com>
 #  Part of the Wesnoth Campaign Translations project
 #
 #  This program is free software; you can redistribute it and/or modify
