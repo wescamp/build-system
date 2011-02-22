@@ -301,5 +301,13 @@ echo "Generating po files..."
 verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done
 
+# Hack to ensure that fur_IT.po and nb_NO.po are made
+echo ""
+echo "Renaming fur.po and nb.po..."
+mv $OUTPUT_DIRECTORY/po/fur.po fur_IT.po
+mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
+sed -i 's/fur/fur_IT/g' $OUTPUT_DIRECTORY/po/fur_IT.po
+sed -i 's/nb/nb_NO/g' $OUTPUT_DIRECTORY/po/nb_NO.po
+
 # Done!
 echo "Done."
