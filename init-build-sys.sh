@@ -309,5 +309,12 @@ mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
 sed -i 's/fur/fur_IT/g' $OUTPUT_DIRECTORY/po/fur_IT.po
 sed -i 's/nb/nb_NO/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 
+# Kill cruft
+echo ""
+echo "Killing cruft..."
+rm $OUTPUT_DIRECTORY/config.status
+rm $OUTPUT_DIRECTORY/po/*gmo
+
 # Done!
+echo ""
 echo "Done."
