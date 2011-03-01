@@ -308,7 +308,7 @@ rm $OUTPUT_DIRECTORY/po/en_GB.po
 rm $OUTPUT_DIRECTORY/po/en@shaw.po
 # Copy de.po, for it has similar plurals info
 cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en_GB.po
-cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po\
+cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po
 # Replace 'de' with the proper locales within the files
 sed -i 's/de/en_GB/g' $OUTPUT_DIRECTORY/po/en_GB.po
 sed -i 's/de/en@shaw/g' $OUTPUT_DIRECTORY/po/en@shaw.po
