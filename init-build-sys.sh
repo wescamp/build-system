@@ -301,6 +301,18 @@ echo "Generating po files..."
 verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done
 
+# Hack to generate en_GB.po and en@shaw.po files without automatic translations
+echo ""
+echo "Generating en_GB.po and en@shaw.po files without automatic translations..."
+rm $OUTPUT_DIRECTORY/po/en_GB.po
+rm $OUTPUT_DIRECTORY/po/en@shaw.po
+# Copy de.po, for it has similar plurals info
+cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en_GB.po
+cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po\
+# Replace 'de' with the proper locales within the files
+sed -i 's/de/en_GB/g' $OUTPUT_DIRECTORY/po/en_GB.po
+sed -i 's/de/en@shaw/g' $OUTPUT_DIRECTORY/po/en@shaw.po
+
 # Hack to ensure that fur_IT.po and nb_NO.po are made
 echo ""
 echo "Renaming fur.po and nb.po..."
