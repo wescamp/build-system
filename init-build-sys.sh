@@ -321,6 +321,11 @@ mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
 sed -i 's/fur/fur_IT/g' $OUTPUT_DIRECTORY/po/fur_IT.po
 sed -i 's/nb/nb_NO/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 
+# Fix plurals info for Irish
+echo ""
+echo "Fixing plurals info for Irish..."
+sed -i 's/\"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n\"/"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4;\\n"/g' $OUTPUT_DIRECTORY/po/ga.po
+
 # Kill cruft
 echo ""
 echo "Killing cruft..."
