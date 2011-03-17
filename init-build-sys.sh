@@ -318,8 +318,8 @@ echo ""
 echo "Renaming fur.po and nb.po..."
 mv $OUTPUT_DIRECTORY/po/fur.po fur_IT.po
 mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
-sed -i 's/fur/fur_IT/g' $OUTPUT_DIRECTORY/po/fur_IT.po
-sed -i 's/nb/nb_NO/g' $OUTPUT_DIRECTORY/po/nb_NO.po
+sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
+sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 
 # Fix plurals info for Irish
 echo ""
