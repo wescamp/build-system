@@ -310,8 +310,8 @@ rm $OUTPUT_DIRECTORY/po/en@shaw.po
 cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en_GB.po
 cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po
 # Replace 'de' with the proper locales within the files
-sed -i 's/de/en_GB/g' $OUTPUT_DIRECTORY/po/en_GB.po
-sed -i 's/de/en@shaw/g' $OUTPUT_DIRECTORY/po/en@shaw.po
+sed -i 's/\"Language: de\\n\"/\"Language: en_GB\\n\"/g' $OUTPUT_DIRECTORY/po/en_GB.po
+sed -i 's/\"Language: de\\n\"/\"Language: en@shaw\\n\"/g' $OUTPUT_DIRECTORY/po/en@shaw.po
 
 # Hack to ensure that fur_IT.po and nb_NO.po are made
 echo ""
