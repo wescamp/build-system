@@ -321,6 +321,7 @@ mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
 sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
 sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 
+if [ "${VERSION}" = "trunk" ]; then
 # Fix plurals info for Irish
 echo ""
 echo "Fixing plurals info for Irish..."
@@ -331,6 +332,7 @@ echo ""
 echo "Adding plurals info for Old English..."
 sed -i 's/\(Language: ang.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang.po
 sed -i 's/\(Language: ang@latin.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang@latin.po
+fi
 
 # Kill cruft
 echo ""
