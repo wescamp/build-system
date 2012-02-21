@@ -154,6 +154,10 @@ while [ "${1}" != "" ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; do
         VERSION="trunk"
         shift
 
+    elif [ "${1}" = "--1.10" ]; then
+        VERSION="1.10"
+        shift
+
     elif [ "${1}" = "--1.8" ]; then
         VERSION="1.8"
         shift
@@ -321,7 +325,8 @@ mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
 sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
 sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 
-if [ "${VERSION}" = "trunk" ]; then
+#FIXME: if nobody is going to maintain 1.8 translations, the conditional should probably be removed
+if [ "${VERSION}" = "trunk" -o "${VERSION}" = "1.10" ]; then
 # Fix plurals info for Irish
 echo ""
 echo "Fixing plurals info for Irish..."
