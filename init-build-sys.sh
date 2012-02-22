@@ -48,6 +48,7 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		--1.4
 		--1.6
 		--1.8
+		--1.10
 		--trunk
 
 		Please note that 'support' for 1.0 and 1.2 is merely there for fun, thus we do not know if it truly works; if you find that what this script generates for 1.0/1.2 does not work, do not get mad.
