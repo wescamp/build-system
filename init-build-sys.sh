@@ -315,8 +315,8 @@ for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --
 # Hack to generate en_GB.po and en@shaw.po files without automatic translations
 echo ""
 echo "Generating en_GB.po and en@shaw.po files without automatic translations..."
-rm $OUTPUT_DIRECTORY/po/en_GB.po
-rm $OUTPUT_DIRECTORY/po/en@shaw.po
+rm -f $OUTPUT_DIRECTORY/po/en_GB.po
+rm -f $OUTPUT_DIRECTORY/po/en@shaw.po
 # Copy de.po, for it has similar plurals info
 cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en_GB.po
 cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po
@@ -349,8 +349,8 @@ fi
 # Kill cruft
 echo ""
 echo "Killing cruft..."
-rm $OUTPUT_DIRECTORY/config.status
-rm $OUTPUT_DIRECTORY/po/*gmo
+rm -f $OUTPUT_DIRECTORY/config.status
+rm -f $OUTPUT_DIRECTORY/po/*gmo
 
 # Done!
 echo ""
