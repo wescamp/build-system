@@ -56,6 +56,12 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		This script should be run in the directory that contains the target addon's directory.
 
 		Report any issues to Espreon.
+
+
+		NOTES FOR ACTUAL USAGE:
+		-run the script *from the addon translation repo's root*, that is Invasion_from_the_Unknown-1.10 or the like
+		-invoke it as path/to/init-build-sys.sh --1.10 Invasion_from_the_Unknown .
+		-DO NOT FORGET THE PERIOD, or it might decide to write to your home directory instead
 	EOD
 	exit
 fi
@@ -131,7 +137,7 @@ OUTPUT_DIRECTORY="null"
 INPUT_DIRECTORY="null"
 
 # Name of addon directory
-ADDON_DIRECTORY_NAME="null"
+ADDON_DIRECTORY_NAME="."
 
 # Version on which the target addon runs
 VERSION="null"
