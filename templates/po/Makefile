@@ -331,6 +331,8 @@ mostlyclean:
 	rm -f stamp-poT
 	rm -f core core.* $(DOMAIN).po $(DOMAIN).1po $(DOMAIN).2po *.new.po
 	rm -fr *.o
+	rm -f *.gmo
+	rm -f *.po~
 
 clean: mostlyclean
 
