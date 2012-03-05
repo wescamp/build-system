@@ -333,6 +333,7 @@ mostlyclean:
 	rm -fr *.o
 	rm -f *.gmo
 	rm -f *.po~
+	rm -f *.wml.po *.cpp.po *.cpp1.po
 
 clean: mostlyclean
 
