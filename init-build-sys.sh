@@ -9,9 +9,6 @@
 # wmlxgettext (Perl):
 # http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmlxgettext
 #
-# wmltrans.pm:
-# http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmltrans.pm
-#
 #  Copyright © 2010, 2011 by Steven Panek <Majora700@gmail.com>
 #  Part of the Wesnoth Campaign Translations project
 #
@@ -79,7 +76,7 @@ If you do not have $1, you can get it from here: $2"
 
 check_for_thingy()
 {
-    type -P $1 &>/dev/null || need_script $1 $2
+    type -P $1 &>/dev/null || need_thingy $1 $2
 }
 
 need_perl_wmlxgettext()
@@ -116,7 +113,6 @@ verbose_message()
     fi
 }
 
-check_for_thingy "wmltrans.pm" "http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmltrans.pm"
 check_for_perl_wmlxgettext
 # check_for_thingy "lbundle-check.py" "http://websvn.kde.org/*checkout*/trunk/l10n-support/scripts/lbundle-check.py"
 
