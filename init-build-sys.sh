@@ -228,41 +228,13 @@ echo "Creating the build system in $OUTPUT_DIRECTORY..."
 # Check to see if a 'po' directory already exists
 check_for_file "$OUTPUT_DIRECTORY/po"
 
-# Copy templates into /tmp for cleansing
-verbose_message "Copying templates to /tmp/wescamp-build-sys-templates for cleansing..."
-echo ""
-cp -rf $MY_DIRECTORY/templates/ /tmp/wescamp-build-sys-templates
-
-verbose_message "Entering /tmp/wescamp-build-sys/templates..."
-echo ""
-cd /tmp/wescamp-build-sys-templates/
-
-# Cleanse the directories of '.svn' directories
-verbose_message "Cleansing temporary directory of '.svn' directories..."
-echo ""
-rm -rf ./.svn
-
-verbose_message "Entering /tmp/wescamp-build-sys-templates/po..."
-echo ""
-cd /tmp/wescamp-build-sys-templates/po
-
-verbose_message "Cleansing temporary directories of '.svn' directories..."
-echo ""
-rm -rf ./.svn
-
 # Move templates to destination
-cp -rf /tmp/wescamp-build-sys-templates/. $OUTPUT_DIRECTORY/
+cp -rf $MY_DIRECTORY/templates/* $OUTPUT_DIRECTORY/
 
 # Enter output directory
 echo "Entering $OUTPUT_DIRECTORY..."
 echo ""
 cd $OUTPUT_DIRECTORY
-
-# Clean up temporary directories
-verbose_message "Smiting temporary directories..."
-echo ""
-rm -rf /tmp/wescamp-build-sys-templates
-
 
 check_for_file "po/LINGUAS"
 echo "Creating 'LINGUAS' in $OUTPUT_DIRECTORY/po..."
