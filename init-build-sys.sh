@@ -1,5 +1,4 @@
 #! /bin/bash
-# $Id$
 #
 # Requires: Bash, gettext, and wmlxgettext (the Perl version)
 #
