@@ -34,6 +34,7 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		Options:
 
 		--force         | -f       Overwrite files/directories normally created by this script, if any exist.
+		--update        | -u       Update the files created by this script, do not perform actions that should only happen once.
 		--help          | -h       Displays this information and exits.
 		--verbose       | -v       Enables extra information.
 
@@ -97,11 +98,30 @@ check_for_perl_wmlxgettext()
 # not enabled, abort
 check_for_file()
 {
-    if [ -e "$MY_DIRECTORY/$1" ]; then
-        if [ "${FORCE}" = "no" ]; then
+    if [ "${UPDATE}" = "yes" ]; then
+        if [ ! -e "$1" ]; then
+            echo "File/directory '$1' does not exist while updating; aborting..."
+            exit 1
+        fi
+    elif [ "${FORCE}" = "no" ]; then
+        if [ -e "$1" ]; then
             echo "File/directory '$1' exists; --force/-f not enabled; aborting..."
             exit 1
         fi
+    fi
+}
+
+# Checks if the script is allowed to write to (and maybe clobber) a file.
+# It is not if the update flag is set and the file exists
+check_create() {
+    if [ -e $1 ]; then
+        if [ "${UPDATE}" = "yes" ]; then
+            false;
+        else
+            true;
+        fi
+    else
+        true;
     fi
 }
 
@@ -127,6 +147,9 @@ VERBOSE="no"
 # Disable force by default
 FORCE="no"
 
+# Disable update by default
+UPDATE="no"
+
 # Input/output
 OUTPUT_DIRECTORY="null"
 INPUT_DIRECTORY="null"
@@ -143,6 +166,10 @@ while [ "${1}" != "" ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; do
     # Determine whether or not to enable force
     if [ "${1}" = "--force" ] || [ "${1}" = "-f" ]; then
         FORCE="yes"
+        shift
+
+    elif [ "${1}" = "--update" ] || [ "${1}" = "-u" ]; then
+        UPDATE="yes"
         shift
 
     # Determine whether or not to enable more information
@@ -260,8 +287,8 @@ make
 
 # Enter input directory
 echo ""
-echo "Entering '$INPUT_DIRECTORY'..."
-cd $INPUT_DIRECTORY
+echo "Entering '$INPUT_DIRECTORY/$ADDON_DIRECTORY_NAME'..."
+cd $INPUT_DIRECTORY/$ADDON_DIRECTORY_NAME
 
 # Merge stuff from the target addon with the pot using wmlxgettext
 echo ""
@@ -277,40 +304,51 @@ cd $OUTPUT_DIRECTORY/po
 echo ""
 echo "Generating po files..."
 verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
-for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done
+for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
+    if check_create $OUTPUT_DIRECTORY/po/$i.po; then
+        msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot;
+    #else
+    #    echo "not creating ${OUTPUT_DIRECTORY}/po/${i}.po because it exists and we're in update mode"
+    fi
+done
 
-# Hack to generate en_GB.po and en@shaw.po files without automatic translations
-echo ""
-echo "Generating en_GB.po and en@shaw.po files without automatic translations..."
-rm -f $OUTPUT_DIRECTORY/po/en_GB.po
-rm -f $OUTPUT_DIRECTORY/po/en@shaw.po
-# Copy de.po, for it has similar plurals info
-cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en_GB.po
-cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po
-# Replace 'de' with the proper locales within the files
-sed -i 's/\"Language: de\\n\"/\"Language: en_GB\\n\"/g' $OUTPUT_DIRECTORY/po/en_GB.po
-sed -i 's/\"Language: de\\n\"/\"Language: en@shaw\\n\"/g' $OUTPUT_DIRECTORY/po/en@shaw.po
+if [ "${UPDATE}" = "no" ]; then
+    # Hack to generate en_GB.po and en@shaw.po files without automatic translations
+    echo ""
+    echo "Generating en_GB.po and en@shaw.po files without automatic translations..."
+    rm -f $OUTPUT_DIRECTORY/po/en_GB.po
+    rm -f $OUTPUT_DIRECTORY/po/en@shaw.po
+    # Copy de.po, for it has similar plurals info
+    cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en_GB.po
+    cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po
+    # Replace 'de' with the proper locales within the files
+    sed -i 's/\"Language: de\\n\"/\"Language: en_GB\\n\"/g' $OUTPUT_DIRECTORY/po/en_GB.po
+    sed -i 's/\"Language: de\\n\"/\"Language: en@shaw\\n\"/g' $OUTPUT_DIRECTORY/po/en@shaw.po
+fi
 
 # Hack to ensure that fur_IT.po and nb_NO.po are made
 echo ""
 echo "Renaming fur.po and nb.po..."
-mv $OUTPUT_DIRECTORY/po/fur.po fur_IT.po
-mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
-sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
-sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
+if check_create $OUTPUT_DIRECTORY/po/fur_IT.po; then
+    mv $OUTPUT_DIRECTORY/po/fur.po fur_IT.po
+    sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
+fi
+if check_create $OUTPUT_DIRECTORY/po/nb_NO.po; then
+    mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
+    sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
+fi
 
-#FIXME: if nobody is going to maintain 1.8 translations, the conditional should probably be removed
-if [ "${VERSION}" = "trunk" -o "${VERSION}" = "1.10" ]; then
 # Fix plurals info for Irish
 echo ""
 echo "Fixing plurals info for Irish..."
 sed -i 's/\"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n\"/"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4;\\n"/g' $OUTPUT_DIRECTORY/po/ga.po
 
 # Add plurals info for Old English
-echo ""
-echo "Adding plurals info for Old English..."
-sed -i 's/\(Language: ang.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang.po
-sed -i 's/\(Language: ang@latin.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang@latin.po
+if [ "${UPDATE}" = "no" ]; then
+    echo ""
+    echo "Adding plurals info for Old English..."
+    sed -i 's/\(Language: ang.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang.po
+    sed -i 's/\(Language: ang@latin.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang@latin.po
 fi
 
 # Kill cruft
