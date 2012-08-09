@@ -279,21 +279,15 @@ echo ""
 echo "Entering '$OUTPUT_DIRECTORY'..."
 cd $OUTPUT_DIRECTORY
 
-# Generate pot file
-echo ""
-echo "Generating the pot file..."
-verbose_message "... with 'make'..."
-make
-
-# Enter input directory
-echo ""
-echo "Entering '$INPUT_DIRECTORY/$ADDON_DIRECTORY_NAME'..."
-cd $INPUT_DIRECTORY/$ADDON_DIRECTORY_NAME
-
 # Merge stuff from the target addon with the pot using wmlxgettext
 echo ""
-echo "Merging strings from the target addon with the pot using wmlxgettext..."
+echo "Generating the pot using wmlxgettext..."
 wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
+
+# Generate Makefile
+echo ""
+echo "Generating po/Makefile"
+make setup
 
 # Enter 'po'
 echo ""
