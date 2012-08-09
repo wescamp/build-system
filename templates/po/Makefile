@@ -376,7 +376,7 @@ dist2: $(DISTFILES)
 	  fi; \
 	done
 
-update-po: Makefile
+update-po:
 	$(MAKE) $(DOMAIN).pot-update
 	test -z "$(UPDATEPOFILES)" || $(MAKE) $(UPDATEPOFILES)
 	$(MAKE) update-gmo
@@ -415,13 +415,8 @@ update-po: Makefile
 
 $(DUMMYPOFILES):
 
-update-gmo: Makefile $(GMOFILES)
+update-gmo: $(GMOFILES)
 	@:
-
-Makefile: Makefile.in.in $(top_builddir)/config.status POTFILES.in LINGUAS
-	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@.in CONFIG_HEADERS= \
-	       $(SHELL) ./config.status
 
 force:
 
