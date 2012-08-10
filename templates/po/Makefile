@@ -100,6 +100,9 @@ MSGID_BUGS_ADDRESS =http://bugs.wesnoth.org/
 .SUFFIXES:
 .SUFFIXES: .po .gmo .mo .sed .sin .nop .po-create .po-update
 
+all:
+	@echo "Run make in the directory below instead"
+
 .po.mo:
 	@echo "$(MSGFMT) -c -o $@ $<"; \
 	$(MSGFMT) -c -o t-$@ $< && mv t-$@ $@
