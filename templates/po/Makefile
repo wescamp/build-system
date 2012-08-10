@@ -183,7 +183,6 @@ info dvi ps pdf html tags TAGS ctags CTAGS ID:
 
 mostlyclean:
 	rm -f remove-potcdate.sed
-	rm -f stamp-poT
 	rm -f core core.* $(DOMAIN).po $(DOMAIN).1po $(DOMAIN).2po *.new.po
 	rm -fr *.o
 	rm -f *.gmo

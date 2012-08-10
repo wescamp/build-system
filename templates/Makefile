@@ -54,7 +54,7 @@ setup:
 		-e "/Makevars gets inserted here/ r po/Makevars"
 
 clean:
-	-cd po && make distclean && rm -f stamp-po
+	-cd po && make distclean
 	rm -f config.status
 
 realclean: clean
