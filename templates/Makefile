@@ -53,6 +53,9 @@ setup:
 		-e "s/@CATALOGS@/${CATALOGS}/" \
 		-e "/Makevars gets inserted here/ r po/Makevars"
 
+mostlyclean:
+	-cd po && make mostlyclean
+
 clean:
 	-cd po && make distclean
 	rm -f config.status
