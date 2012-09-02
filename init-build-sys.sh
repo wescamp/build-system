@@ -284,6 +284,10 @@ if [ "${UPDATE}" = "no" ]; then
     echo ""
     echo "Generating the pot using wmlxgettext..."
     wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
+
+    verbose_message "Clearing the Report-Msgid-Bugs-To field..."
+    # Clear the Report-Msgid-Bugs-To field
+    sed -i 's/Report-Msgid-Bugs-To: http:\/\/bugs.wesnoth.org\//Report-Msgid-Bugs-To: /g' $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
 fi
 
 # Generate Makefile
