@@ -22,15 +22,6 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = ..
-VPATH = .
-
-prefix = @prefix@
-exec_prefix = @exec_prefix@
-datadir = @datadir@
-DATADIR = @DATADIR@
-LOCALEDIR = @LOCALEDIR@
-localedir = @FULLLOCALEDIR@
-gettextsrcdir = $(datadir)/gettext/po
 
 GMSGFMT = msgfmt
 MSGFMT = msgfmt
