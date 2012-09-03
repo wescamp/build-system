@@ -42,7 +42,6 @@ setup:
 		-e "s/@srcdir@/./" \
 		-e "s/@top_srcdir@/../" \
 		-e "s,@INSTALL_DATA@,/usr/bin/install -m644," \
-		-e "s,@XGETTEXT@,true," \
 		-e "s,@MSGFMT@,msgfmt," \
 		-e "s,@GMSGFMT@,msgfmt," \
 		-e "s,@MSGMERGE@,msgmerge," \

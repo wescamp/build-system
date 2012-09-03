@@ -39,7 +39,6 @@ mkinstalldirs = $(SHELL) $(MKINSTALLDIRS)
 
 GMSGFMT = msgfmt
 MSGFMT = msgfmt
-XGETTEXT = true
 WMLXGETTEXT := $(top_srcdir)/utils/wmlxgettext
 MSGMERGE = msgmerge
 MSGMERGE_UPDATE = msgmerge --update
@@ -121,29 +120,15 @@ all:
 
 # This target rebuilds $(DOMAIN).pot; it is an expensive operation.
 # Note that $(DOMAIN).pot is not touched if it doesn't need to be changed.
-$(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
-	$(XGETTEXT) --default-domain=$(DOMAIN) --directory=$(top_srcdir) \
-	  --add-comments=TRANSLATORS: $(XGETTEXT_OPTIONS) \
-	  --files-from=$(srcdir)/POTFILES.in \
-	  --copyright-holder='$(COPYRIGHT_HOLDER)' \
-	  --msgid-bugs-address='$(MSGID_BUGS_ADDRESS)' \
-	  --keyword=_ --keyword=N_ \
-	  --output=$(DOMAIN).cpp.po
-	if test -f $(DOMAIN).cpp.po ; then \
-	  sed s/charset=CHARSET/charset=UTF-8/ $(DOMAIN).cpp.po > $(DOMAIN).cpp1.po ;\
-	fi
+$(DOMAIN).pot-update:
 	if test -r $(srcdir)/FINDCFG ;\
 	then ${WMLXGETTEXT} --directory=$(top_srcdir) --domain=$(DOMAIN) \
 	  `cd $(top_srcdir) && sh $(subdir)/FINDCFG` > $(DOMAIN).wml.po ;\
 	fi
-	if test -f $(DOMAIN).wml.po -a -f $(DOMAIN).cpp1.po ; then \
-	  msgcat --sort-by-file $(DOMAIN).cpp1.po $(DOMAIN).wml.po -o $(DOMAIN).po ;\
-	elif test -f $(DOMAIN).wml.po ; then \
+	if test -f $(DOMAIN).wml.po ; then \
 	  mv $(DOMAIN).wml.po $(DOMAIN).po ;\
-	else \
-	  mv $(DOMAIN).cpp1.po $(DOMAIN).po ;\
 	fi
-	rm -f $(DOMAIN).cpp.po $(DOMAIN).cpp1.po $(DOMAIN).wml.po
+	rm -f $(DOMAIN).wml.po
 	test ! -f $(DOMAIN).po || { \
 	  if test -f $(srcdir)/$(DOMAIN).pot; then \
 	    sed -f remove-potcdate.sed < $(srcdir)/$(DOMAIN).pot > $(DOMAIN).1po && \
@@ -183,10 +168,9 @@ info dvi ps pdf html tags TAGS ctags CTAGS ID:
 mostlyclean:
 	rm -f remove-potcdate.sed
 	rm -f core core.* $(DOMAIN).po $(DOMAIN).1po $(DOMAIN).2po *.new.po
-	rm -fr *.o
 	rm -f *.gmo
 	rm -f *.po~
-	rm -f *.wml.po *.cpp.po *.cpp1.po
+	rm -f *.wml.po
 
 clean: mostlyclean
 
