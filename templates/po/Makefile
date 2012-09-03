@@ -32,11 +32,6 @@ LOCALEDIR = @LOCALEDIR@
 localedir = @FULLLOCALEDIR@
 gettextsrcdir = $(datadir)/gettext/po
 
-INSTALL = @INSTALL@
-INSTALL_DATA = /usr/bin/install -m644
-MKINSTALLDIRS = @MKINSTALLDIRS@
-mkinstalldirs = $(SHELL) $(MKINSTALLDIRS)
-
 GMSGFMT = msgfmt
 MSGFMT = msgfmt
 WMLXGETTEXT := $(top_srcdir)/utils/wmlxgettext

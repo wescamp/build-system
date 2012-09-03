@@ -41,7 +41,6 @@ setup:
 		-e "s/@PACKAGE@/${DOMAIN}/" \
 		-e "s/@srcdir@/./" \
 		-e "s/@top_srcdir@/../" \
-		-e "s,@INSTALL_DATA@,/usr/bin/install -m644," \
 		-e "s,@MSGFMT@,msgfmt," \
 		-e "s,@GMSGFMT@,msgfmt," \
 		-e "s,@MSGMERGE@,msgmerge," \
