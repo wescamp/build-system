@@ -37,10 +37,8 @@ UPDATEPOFILES =
 DUMMYPOFILES =
 DISTFILES.common = Makefile.in.in remove-potcdate.sin \
 $(DISTFILES.common.extra1) $(DISTFILES.common.extra2) $(DISTFILES.common.extra3)
-DISTFILES = $(DISTFILES.common) Makevars POTFILES.in $(DOMAIN).pot \
+DISTFILES = $(DISTFILES.common) Makevars $(DOMAIN).pot \
 	$(POFILES) $(DISTFILES.extra1) $(DISTFILES.extra2) $(DISTFILES.extra3)
-
-POTFILES = \
 
 CATALOGS =
 
@@ -160,7 +158,7 @@ mostlyclean:
 clean: mostlyclean
 
 distclean: clean
-	rm -f Makefile Makefile.in POTFILES *.mo
+	rm -f Makefile Makefile.in *.mo
 
 update-po:
 	$(MAKE) $(DOMAIN).pot-update
