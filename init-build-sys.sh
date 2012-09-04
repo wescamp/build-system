@@ -271,8 +271,6 @@ echo ""
 echo "Replacing placeholder value 'foobar' with '$ADDON_DIRECTORY_NAME' using 'sed' in..."
 echo "... '$OUTPUT_DIRECTORY/campaign.def'..."
 sed -i s/foobar/$ADDON_DIRECTORY_NAME/g $OUTPUT_DIRECTORY/campaign.def
-echo "... '$OUTPUT_DIRECTORY/po/Makefile'..."
-sed -i s/foobar/$ADDON_DIRECTORY_NAME/g $OUTPUT_DIRECTORY/po/Makefile
 
 # Enter the output directory
 echo ""
