@@ -18,7 +18,6 @@ PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
 SHELL = /bin/sh
-@SET_MAKE@
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@

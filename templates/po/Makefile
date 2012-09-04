@@ -19,7 +19,6 @@ VERSION = @VERSION@
 
 SHELL = /bin/sh
 
-
 srcdir = .
 top_srcdir = ..
 

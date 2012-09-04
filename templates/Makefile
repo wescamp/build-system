@@ -35,8 +35,6 @@ setup:
 	test -f po/LINGUAS || :> po/LINGUAS
 	touch config.status
 	sed < po/Makefile.in.in > po/Makefile \
-		-e "s/@POMAKEFILEDEPS@/POTFILES.in LINGUAS/" \
-		-e "s/@SET_MAKE@//" \
 		-e "s/@PACKAGE@/${DOMAIN}/" \
 		-e "s/@srcdir@/./" \
 		-e "s/@top_srcdir@/../" \
