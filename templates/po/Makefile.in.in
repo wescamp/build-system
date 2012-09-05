@@ -64,6 +64,7 @@ all:
 	fi; \
 	rm -f $${lang}.stats
 
+# Strips comments from .sin and generates .sed
 .sin.sed:
 	sed -e '/^#/d' $< > t-$@
 	mv t-$@ $@
