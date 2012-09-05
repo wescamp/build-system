@@ -31,6 +31,9 @@ all: setup
 	done
 	cd po && make clean
 
+# The comment-remove line must precede the Makevars insertion line.
+# This is because sed executes the arguments in reverse order.
+# Thus, this arrangement allows the Makevars comments to be stripped.
 setup:
 	test -f po/LINGUAS || :> po/LINGUAS
 	touch config.status
