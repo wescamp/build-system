@@ -46,6 +46,7 @@ setup:
 		-e "s/@UPDATEPOFILES@/${UPDATEPOFILES}/" \
 		-e "s/@GMOFILES@/${GMOFILES}/" \
 		-e "s/@CATALOGS@/${CATALOGS}/" \
+		-e "/^[ \t]*#/d" \
 		-e "/Makevars gets inserted here/ r po/Makevars"
 
 mostlyclean:
