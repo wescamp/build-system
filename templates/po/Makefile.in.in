@@ -80,7 +80,10 @@ $(DOMAIN).pot-update: $(srcdir)/remove-potcdate.sed
 	  mv $(DOMAIN).wml.po $(DOMAIN).po ;\
 	fi
 	rm -f $(DOMAIN).wml.po
+	# Remove Report-To target
 	sed -i 's/http:\/\/bugs.wesnoth.org\//$(MSGID_BUGS_ADDRESS)/g' $(DOMAIN).po;
+	# Strip the timestamp and see if the result differs from the old file.
+	# If it does, replace the old file.
 	test ! -f $(DOMAIN).po || { \
 	  if test -f $(srcdir)/$(DOMAIN).pot; then \
 	    sed -f remove-potcdate.sed < $(srcdir)/$(DOMAIN).pot > $(DOMAIN).1po && \
