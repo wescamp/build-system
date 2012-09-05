@@ -45,7 +45,7 @@ CATALOGS = @CATALOGS@
 # Makevars gets inserted here. (Don't remove this line!)
 
 .SUFFIXES:
-.SUFFIXES: .po .gmo .mo .sed .nop .po-create .po-update
+.SUFFIXES: .po .gmo .mo .sed .sin .nop .po-create .po-update
 
 all:
 	@echo "Run make in the directory below instead"
