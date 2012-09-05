@@ -31,9 +31,8 @@ all: setup
 	done
 	cd po && make clean
 
-# The comment-remove line must precede the Makevars insertion line.
-# This is because sed executes the arguments in reverse order.
-# Thus, this arrangement allows the Makevars comments to be stripped.
+# The comment-remove command is seperate from the Makevars insertion line.
+# This arrangement allows for comments from Makevars to be stripped too.
 setup:
 	test -f po/LINGUAS || :> po/LINGUAS
 	touch config.status
@@ -49,8 +48,8 @@ setup:
 		-e "s/@UPDATEPOFILES@/${UPDATEPOFILES}/" \
 		-e "s/@GMOFILES@/${GMOFILES}/" \
 		-e "s/@CATALOGS@/${CATALOGS}/" \
-		-e "/^[ \t]*#/d" \
 		-e "/Makevars gets inserted here/ r po/Makevars"
+	sed -i po/Makefile -e "/^[ \t]*#/d"
 
 mostlyclean:
 	-cd po && make mostlyclean
