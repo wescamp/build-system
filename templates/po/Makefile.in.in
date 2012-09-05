@@ -129,7 +129,7 @@ mostlyclean:
 clean: mostlyclean
 
 distclean: clean
-	rm -f Makefile Makefile.in *.mo
+	rm -f Makefile *.mo
 
 update-po:
 	$(MAKE) $(DOMAIN).pot-update
