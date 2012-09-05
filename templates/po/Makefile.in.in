@@ -80,6 +80,7 @@ $(DOMAIN).pot-update: $(srcdir)/remove-potcdate.sed
 	  mv $(DOMAIN).wml.po $(DOMAIN).po ;\
 	fi
 	rm -f $(DOMAIN).wml.po
+	sed -i 's/http:\/\/bugs.wesnoth.org\//$(MSGID_BUGS_ADDRESS)/g' $(DOMAIN).po;
 	test ! -f $(DOMAIN).po || { \
 	  if test -f $(srcdir)/$(DOMAIN).pot; then \
 	    sed -f remove-potcdate.sed < $(srcdir)/$(DOMAIN).pot > $(DOMAIN).1po && \
@@ -93,7 +94,6 @@ $(DOMAIN).pot-update: $(srcdir)/remove-potcdate.sed
 	  else \
 	    mv $(DOMAIN).po $(srcdir)/$(DOMAIN).pot; \
 	  fi; \
-	  sed -i 's/http:\/\/bugs.wesnoth.org\//$(MSGID_BUGS_ADDRESS)/g' $(srcdir)/$(DOMAIN).pot; \
 	}
 
 # This rule has no dependencies: we don't need to update $(DOMAIN).pot at
