@@ -14,6 +14,7 @@
 # - proper behaviour when msgfmt is missing
 # - support for relative localedir
 
+CAMPAIGN = @CAMPAIGN@
 PACKAGE = @PACKAGE@
 BRANCH = @BRANCH@
 
@@ -81,7 +82,7 @@ $(DOMAIN).pot-update: $(srcdir)/remove-potcdate.sed
 	fi
 	rm -f $(DOMAIN).wml.po
 	# Fill in Project-Id-Version
-	sed -i 's/PACKAGE VERSION/$(PACKAGE)-$(BRANCH)/g' $(DOMAIN).po;
+	sed -i 's/PACKAGE VERSION/$(CAMPAIGN)-$(BRANCH)/g' $(DOMAIN).po;
 	# Remove Report-To target
 	sed -i 's/http:\/\/bugs.wesnoth.org\//$(MSGID_BUGS_ADDRESS)/g' $(DOMAIN).po;
 	# Strip the timestamp and see if the result differs from the old file.

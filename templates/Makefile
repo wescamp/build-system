@@ -37,6 +37,7 @@ setup:
 	test -f po/LINGUAS || :> po/LINGUAS
 	touch config.status
 	sed < po/Makefile.in.in > po/Makefile \
+		-e "s/@CAMPAIGN@/${CAMPAIGN}/" \
 		-e "s/@PACKAGE@/${DOMAIN}/" \
 		-e "s/@BRANCH@/${BRANCH}/" \
 		-e "s/@srcdir@/./" \
