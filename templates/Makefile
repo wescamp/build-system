@@ -43,7 +43,6 @@ setup:
 		-e "s/@srcdir@/./" \
 		-e "s/@top_srcdir@/../" \
 		-e "s,@MSGFMT@,msgfmt," \
-		-e "s,@GMSGFMT@,msgfmt," \
 		-e "s,@MSGMERGE@,msgmerge," \
 		-e "s/@POFILES@/${POFILES}/" \
 		-e "s/@DUMMYPOFILES@/${DUMMYPOFILES}/" \
