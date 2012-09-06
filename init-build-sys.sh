@@ -271,6 +271,10 @@ echo ""
 echo "Replacing placeholder value 'foobar' with '$ADDON_DIRECTORY_NAME' using 'sed' in..."
 echo "... '$OUTPUT_DIRECTORY/campaign.def'..."
 sed -i s/foobar/$ADDON_DIRECTORY_NAME/g $OUTPUT_DIRECTORY/campaign.def
+echo ""
+echo "Replacing placeholder value 'branch-number' with '$VERSION' using 'sed' in ..."
+echo "... '$OUTPUT_DIRECTORY/campaign.def'..."
+sed -i s/branch-number/$VERSION/g $OUTPUT_DIRECTORY/campaign.def
 
 # Enter the output directory
 echo ""
@@ -282,6 +286,9 @@ if [ "${UPDATE}" = "no" ]; then
     echo ""
     echo "Generating the pot using wmlxgettext..."
     wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
+
+    verbose_message "Filling in the Project-Id-Version field..."
+    sed -i "s/PACKAGE VERSION/$ADDON_DIRECTORY_NAME-$VERSION/g" $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
 
     verbose_message "Clearing the Report-Msgid-Bugs-To field..."
     # Clear the Report-Msgid-Bugs-To field

@@ -15,7 +15,7 @@
 # - support for relative localedir
 
 PACKAGE = @PACKAGE@
-VERSION = @VERSION@
+BRANCH = @BRANCH@
 
 SHELL = /bin/sh
 
@@ -80,6 +80,8 @@ $(DOMAIN).pot-update: $(srcdir)/remove-potcdate.sed
 	  mv $(DOMAIN).wml.po $(DOMAIN).po ;\
 	fi
 	rm -f $(DOMAIN).wml.po
+	# Fill in Project-Id-Version
+	sed -i 's/PACKAGE VERSION/$(PACKAGE)-$(BRANCH)/g' $(DOMAIN).po;
 	# Remove Report-To target
 	sed -i 's/http:\/\/bugs.wesnoth.org\//$(MSGID_BUGS_ADDRESS)/g' $(DOMAIN).po;
 	# Strip the timestamp and see if the result differs from the old file.

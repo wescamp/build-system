@@ -38,6 +38,7 @@ setup:
 	touch config.status
 	sed < po/Makefile.in.in > po/Makefile \
 		-e "s/@PACKAGE@/${DOMAIN}/" \
+		-e "s/@BRANCH@/${BRANCH}/" \
 		-e "s/@srcdir@/./" \
 		-e "s/@top_srcdir@/../" \
 		-e "s,@MSGFMT@,msgfmt," \

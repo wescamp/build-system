@@ -1,2 +1,3 @@
 CAMPAIGN=foobar
 DOMAIN=wesnoth-foobar
+BRANCH=branch-number
