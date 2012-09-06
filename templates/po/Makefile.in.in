@@ -37,7 +37,6 @@ CATALOGS = @CATALOGS@
 
 # Makevars gets inserted here. (Don't remove this line!)
 
-.SUFFIXES:
 .SUFFIXES: .po .gmo .mo .sed .sin .nop .po-update
 
 all:
