@@ -313,7 +313,7 @@ echo "Generating po files..."
 verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
     if check_create $OUTPUT_DIRECTORY/po/$i.po; then
-        msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot;
+        msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot 2>/dev/null || echo "Failed to create $i.po" >&2;
     #else
     #    echo "not creating ${OUTPUT_DIRECTORY}/po/${i}.po because it exists and we're in update mode"
     fi
