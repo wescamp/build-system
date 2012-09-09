@@ -267,11 +267,11 @@ echo ""
 echo "Entering '$OUTPUT_DIRECTORY'..."
 cd $OUTPUT_DIRECTORY
 
-# Merge stuff from the target addon with the pot using wmlxgettext
-if [ "${UPDATE}" = "no" ]; then
+# Create the pot file
+if test ! -f $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; then
     echo ""
     echo "Generating the pot using wmlxgettext..."
-    wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
+    wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot || echo 'wmlxgettext failed!' >&2
 
     verbose_message "Filling in the Project-Id-Version field..."
     sed -i "s/PACKAGE VERSION/$ADDON_DIRECTORY_NAME-$VERSION/g" $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
