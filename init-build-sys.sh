@@ -308,24 +308,24 @@ done
 
 # Hack to ensure that the hacked po files contain the right language
 echo ""
-if test -f $OUTPUT_DIRECTORY/po/en_GB.po; then
+if test -f $OUTPUT_DIRECTORY/po/en_GB.po && ! grep "Language: en_GB" $OUTPUT_DIRECTORY/po/en_GB.po >/dev/null; then
     echo "Fixing language of en_GB.po"
     sed -i 's/\"Language: de\\n\"/\"Language: en_GB\\n\"/g' $OUTPUT_DIRECTORY/po/en_GB.po
 fi
-if test -f $OUTPUT_DIRECTORY/po/en@shaw.po; then
+if test -f $OUTPUT_DIRECTORY/po/en@shaw.po && ! grep "Language: en@shaw" $OUTPUT_DIRECTORY/po/en@shaw.po >/dev/null; then
     echo "Fixing language of en@shaw.po"
     sed -i 's/\"Language: de\\n\"/\"Language: en@shaw\\n\"/g' $OUTPUT_DIRECTORY/po/en@shaw.po
 fi
-if test -f $OUTPUT_DIRECTORY/po/fur_IT.po; then
+if test -f $OUTPUT_DIRECTORY/po/fur_IT.po && ! grep "Language: fur_IT" $OUTPUT_DIRECTORY/po/fur_IT.po >/dev/null; then
     echo "Fixing language of fur_IT.po"
     sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
 fi
-if test -f $OUTPUT_DIRECTORY/po/nb_NO.po; then
+if test -f $OUTPUT_DIRECTORY/po/nb_NO.po && ! grep "Language: nb_NO" $OUTPUT_DIRECTORY/po/nb_NO.po >/dev/null; then
     echo "Fixing language of nb_NO.po"
     sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 fi
 # Hacks to fix the plural forms
-if test -f $OUTPUT_DIRECTORY/po/ga.po; then
+if test -f $OUTPUT_DIRECTORY/po/ga.po && ! grep "Plural-Forms: nplurals=5" $OUTPUT_DIRECTORY/po/ga.po >/dev/null; then
     echo "Fixing plurals info for Irish"
     sed -i 's/\"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n\"/"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4;\\n"/g' $OUTPUT_DIRECTORY/po/ga.po
 fi
