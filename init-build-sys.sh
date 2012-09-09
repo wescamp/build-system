@@ -288,11 +288,11 @@ cd $OUTPUT_DIRECTORY/po
 
 # Generate po files
 echo ""
-echo "Generating po files..."
+echo -n "Generating po files..."
 verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
     if test ! -f $OUTPUT_DIRECTORY/po/$i.po; then
-        echo "Creating $i.po"
+        echo -n " $i.po"
         if test "x$i" = "xen_GB" -o "x$i" = "xen@shaw"; then
             # Hack to generate en_GB.po and en@shaw.po files without automatic translations
             # Use de, for it has similar plurals info
@@ -305,6 +305,7 @@ for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
         fi
     fi
 done
+echo
 
 # Hack to ensure that the hacked po files contain the right language
 echo ""
