@@ -111,20 +111,6 @@ check_for_file()
     fi
 }
 
-# Checks if the script is allowed to write to (and maybe clobber) a file.
-# It is not if the update flag is set and the file exists
-check_create() {
-    if [ -e $1 ]; then
-        if [ "${UPDATE}" = "yes" ]; then
-            false;
-        else
-            true;
-        fi
-    else
-        true;
-    fi
-}
-
 verbose_message()
 {
     if [ "${VERBOSE}" = "yes" ]; then
@@ -312,7 +298,8 @@ echo ""
 echo "Generating po files..."
 verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
-    if check_create $OUTPUT_DIRECTORY/po/$i.po; then
+    if test ! -f $OUTPUT_DIRECTORY/po/$i.po; then
+        echo "Creating $i.po"
         msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot 2>/dev/null || echo "Failed to create $i.po" >&2;
     #else
     #    echo "not creating ${OUTPUT_DIRECTORY}/po/${i}.po because it exists and we're in update mode"
@@ -335,14 +322,25 @@ fi
 
 # Hack to ensure that fur_IT.po and nb_NO.po are made
 echo ""
-echo "Renaming fur.po and nb.po..."
-if check_create $OUTPUT_DIRECTORY/po/fur_IT.po; then
-    mv $OUTPUT_DIRECTORY/po/fur.po fur_IT.po
-    sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
+if test -f $OUTPUT_DIRECTORY/po/fur.po; then
+    if test ! -f $OUTPUT_DIRECTORY/po/fur_IT.po; then
+        echo "Renaming fur.po"
+        mv $OUTPUT_DIRECTORY/po/fur.po fur_IT.po
+        sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
+    else
+        echo "fur_IT.po already existed. Deleting fur.po" >&2
+        rm $OUTPUT_DIRECTORY/po/fur.po
+    fi
 fi
-if check_create $OUTPUT_DIRECTORY/po/nb_NO.po; then
-    mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
-    sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
+if test -f $OUTPUT_DIRECTORY/po/nb.po; then
+    if test ! -f $OUTPUT_DIRECTORY/po/nb_NO.po; then
+        echo "Renaming nb.po"
+        mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
+        sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
+    else
+        echo "nb_NO.po already existed. Deleting nb.po" >&2
+        rm $OUTPUT_DIRECTORY/po/nb.po
+    fi
 fi
 
 # Fix plurals info for Irish
