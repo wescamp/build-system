@@ -35,7 +35,6 @@ all: setup
 # This arrangement allows for comments from Makevars to be stripped too.
 setup:
 	test -f po/LINGUAS || :> po/LINGUAS
-	touch config.status
 	sed < po/Makefile.in.in > po/Makefile \
 		-e "s/@CAMPAIGN@/${CAMPAIGN}/" \
 		-e "s/@PACKAGE@/${DOMAIN}/" \
@@ -57,7 +56,6 @@ mostlyclean:
 
 clean:
 	-cd po && make distclean
-	rm -f config.status
 
 realclean: clean
 	rm -rf ${CAMPAIGN}/translations

@@ -359,7 +359,6 @@ fi
 # Kill cruft
 echo ""
 echo "Killing cruft..."
-rm -f $OUTPUT_DIRECTORY/config.status
 rm -f $OUTPUT_DIRECTORY/po/*gmo
 
 # Done!
