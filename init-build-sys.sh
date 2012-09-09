@@ -281,13 +281,6 @@ if test ! -f $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; then
     sed -i 's/Report-Msgid-Bugs-To: http:\/\/bugs.wesnoth.org\//Report-Msgid-Bugs-To: /g' $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
 fi
 
-# Generate Makefile
-echo ""
-echo "Generating po/Makefile"
-make setup
-echo "Clean up some"
-make clean
-
 # Enter 'po'
 echo ""
 echo "Entering '$OUTPUT_DIRECTORY/po'..."
