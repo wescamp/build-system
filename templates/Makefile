@@ -55,7 +55,10 @@ mostlyclean:
 	-cd po && make mostlyclean
 
 clean:
+	-cd po && make clean
+
+distclean:
 	-cd po && make distclean
 
-realclean: clean
+realclean: distclean
 	rm -rf ${CAMPAIGN}/translations
