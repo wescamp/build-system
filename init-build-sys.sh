@@ -286,7 +286,7 @@ echo ""
 echo "Generating po/Makefile"
 make setup
 echo "Clean up some"
-make mostlyclean
+make clean
 
 # Enter 'po'
 echo ""
@@ -349,6 +349,8 @@ fi
 echo ""
 echo "Killing cruft..."
 rm -f $OUTPUT_DIRECTORY/po/*gmo
+rm -f $OUTPUT_DIRECTORY/po/Makefile
+rm -f $OUTPUT_DIRECTORY/po/remove-potcdate.sed
 
 # Done!
 echo ""
