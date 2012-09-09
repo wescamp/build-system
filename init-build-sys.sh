@@ -69,8 +69,8 @@ need_thingy()
 {
     echo "$1 was not found in your PATH; please put it in your PATH.
 
-If you do not have $1, you can get it from here: $2"
-    echo "Aborting..."
+If you do not have $1, you can get it from here: $2" >&2
+    echo "Aborting..." >&2
     exit 7
 }
 
@@ -83,8 +83,8 @@ need_perl_wmlxgettext()
 {
     echo "The Perl version of wmlxgettext was not found in your PATH; please put it in your PATH.
 
-If you do not have it, you can get it from here: http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmlxgettext"
-    echo "Aborting..."
+If you do not have it, you can get it from here: http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmlxgettext" >&2
+    echo "Aborting..." >&2
     exit 7
 }
 
@@ -100,14 +100,21 @@ check_for_file()
 {
     if [ "${UPDATE}" = "yes" ]; then
         if [ ! -e "$1" ]; then
-            echo "File/directory '$1' does not exist while updating; aborting..."
+            echo "File/directory '$1' does not exist while updating; aborting..." >&2
             exit 1
         fi
     elif [ "${FORCE}" = "no" ]; then
         if [ -e "$1" ]; then
-            echo "File/directory '$1' exists; --force/-f not enabled; aborting..."
+            echo "File/directory '$1' exists; --force/-f not enabled; aborting..." >&2
             exit 1
         fi
+    fi
+}
+
+message()
+{
+    if [ "${QUIET}" = "no" ]; then
+        echo "$@"
     fi
 }
 
@@ -129,6 +136,9 @@ MY_DIRECTORY="`dirname $PATH_TO_ME`"
 
 # Disable verbosity by default
 VERBOSE="no"
+
+# Disable quietness by default
+QUIET="no"
 
 # Disable force by default
 FORCE="no"
@@ -161,6 +171,11 @@ while [ "${1}" != "" ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; do
     # Determine whether or not to enable more information
     elif [ "${1}" = "--verbose" ] || [ "${1}" = "-v" ]; then
         VERBOSE="yes"
+        shift
+
+    elif [ "${1}" = "--quiet" ] || [ "${1}" = "-q" ]; then
+        VERBOSE="no"
+        QUIET="yes"
         shift
 
     # Set version that the target addon uses
@@ -217,16 +232,16 @@ done
 
 # Information enabled by --verbose/-v
 if [ "${VERBOSE}" = "yes" ]; then
-echo ""
-echo "VERBOSE:"
-echo "Version used by addon: $VERSION"
-echo "Addon directory name: $ADDON_DIRECTORY_NAME"
-echo "Input directory: $INPUT_DIRECTORY"
-echo "Output directory: $OUTPUT_DIRECTORY"
-echo "Path to script: $PATH_TO_ME"
-echo "Path to directory that contains this script: $MY_DIRECTORY"
+    echo ""
+    echo "VERBOSE:"
+    echo "Version used by addon: $VERSION"
+    echo "Addon directory name: $ADDON_DIRECTORY_NAME"
+    echo "Input directory: $INPUT_DIRECTORY"
+    echo "Output directory: $OUTPUT_DIRECTORY"
+    echo "Path to script: $PATH_TO_ME"
+    echo "Path to directory that contains this script: $MY_DIRECTORY"
 
-echo ""
+    echo ""
 fi
 
 verbose_message "Including the 'lang-codes' file, which contains the language codes..."
@@ -234,8 +249,8 @@ verbose_message "Including the 'lang-codes' file, which contains the language co
 source $MY_DIRECTORY/language-codes
 
 # Move templates to the destination
-echo ""
-echo "Creating the build system in $OUTPUT_DIRECTORY..."
+message ""
+message "Creating the build system in $OUTPUT_DIRECTORY..."
 
 # Check to see if a 'po' directory already exists
 check_for_file "$OUTPUT_DIRECTORY/po"
@@ -244,33 +259,33 @@ check_for_file "$OUTPUT_DIRECTORY/po"
 cp -rf $MY_DIRECTORY/templates/* $OUTPUT_DIRECTORY/
 
 # Enter output directory
-echo "Entering $OUTPUT_DIRECTORY..."
-echo ""
+message "Entering $OUTPUT_DIRECTORY..."
+message ""
 cd $OUTPUT_DIRECTORY
 
 check_for_file "po/LINGUAS"
-echo "Creating 'LINGUAS' in $OUTPUT_DIRECTORY/po..."
+message "Creating 'LINGUAS' in $OUTPUT_DIRECTORY/po..."
 echo $LINGUAS > $OUTPUT_DIRECTORY/po/LINGUAS
 
 # Replace placeholders with the value of ADDON_DIRECTORY_NAME
-echo ""
-echo "Replacing placeholder value 'foobar' with '$ADDON_DIRECTORY_NAME' using 'sed' in..."
-echo "... '$OUTPUT_DIRECTORY/campaign.def'..."
+message ""
+message "Replacing placeholder value 'foobar' with '$ADDON_DIRECTORY_NAME' using 'sed' in..."
+message "... '$OUTPUT_DIRECTORY/campaign.def'..."
 sed -i s/foobar/$ADDON_DIRECTORY_NAME/g $OUTPUT_DIRECTORY/campaign.def
-echo ""
-echo "Replacing placeholder value 'branch-number' with '$VERSION' using 'sed' in ..."
-echo "... '$OUTPUT_DIRECTORY/campaign.def'..."
+message ""
+message "Replacing placeholder value 'branch-number' with '$VERSION' using 'sed' in ..."
+message "... '$OUTPUT_DIRECTORY/campaign.def'..."
 sed -i s/branch-number/$VERSION/g $OUTPUT_DIRECTORY/campaign.def
 
 # Enter the output directory
-echo ""
-echo "Entering '$OUTPUT_DIRECTORY'..."
+message ""
+message "Entering '$OUTPUT_DIRECTORY'..."
 cd $OUTPUT_DIRECTORY
 
 # Create the pot file
 if test ! -f $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; then
-    echo ""
-    echo "Generating the pot using wmlxgettext..."
+    message ""
+    message "Generating the pot using wmlxgettext..."
     wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot || echo 'wmlxgettext failed!' >&2
 
     verbose_message "Filling in the Project-Id-Version field..."
@@ -282,17 +297,16 @@ if test ! -f $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; then
 fi
 
 # Enter 'po'
-echo ""
-echo "Entering '$OUTPUT_DIRECTORY/po'..."
+message ""
+message "Entering '$OUTPUT_DIRECTORY/po'..."
 cd $OUTPUT_DIRECTORY/po
 
 # Generate po files
-echo ""
-echo -n "Generating po files..."
-verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; done'..."
+message ""
+message -n "Generating po files..."
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
     if test ! -f $OUTPUT_DIRECTORY/po/$i.po; then
-        echo -n " $i.po"
+        message -n " $i.po"
         if test "x$i" = "xen_GB" -o "x$i" = "xen@shaw"; then
             # Hack to generate en_GB.po and en@shaw.po files without automatic translations
             # Use de, for it has similar plurals info
@@ -305,47 +319,47 @@ for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
         fi
     fi
 done
-echo
+message
 
 # Hack to ensure that the hacked po files contain the right language
-echo ""
+message ""
 if test -f $OUTPUT_DIRECTORY/po/en_GB.po && ! grep "Language: en_GB" $OUTPUT_DIRECTORY/po/en_GB.po >/dev/null; then
-    echo "Fixing language of en_GB.po"
+    message "Fixing language of en_GB.po"
     sed -i 's/\"Language: de\\n\"/\"Language: en_GB\\n\"/g' $OUTPUT_DIRECTORY/po/en_GB.po
 fi
 if test -f $OUTPUT_DIRECTORY/po/en@shaw.po && ! grep "Language: en@shaw" $OUTPUT_DIRECTORY/po/en@shaw.po >/dev/null; then
-    echo "Fixing language of en@shaw.po"
+    message "Fixing language of en@shaw.po"
     sed -i 's/\"Language: de\\n\"/\"Language: en@shaw\\n\"/g' $OUTPUT_DIRECTORY/po/en@shaw.po
 fi
 if test -f $OUTPUT_DIRECTORY/po/fur_IT.po && ! grep "Language: fur_IT" $OUTPUT_DIRECTORY/po/fur_IT.po >/dev/null; then
-    echo "Fixing language of fur_IT.po"
+    message "Fixing language of fur_IT.po"
     sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
 fi
 if test -f $OUTPUT_DIRECTORY/po/nb_NO.po && ! grep "Language: nb_NO" $OUTPUT_DIRECTORY/po/nb_NO.po >/dev/null; then
-    echo "Fixing language of nb_NO.po"
+    message "Fixing language of nb_NO.po"
     sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 fi
 # Hacks to fix the plural forms
 if test -f $OUTPUT_DIRECTORY/po/ga.po && ! grep "Plural-Forms: nplurals=5" $OUTPUT_DIRECTORY/po/ga.po >/dev/null; then
-    echo "Fixing plurals info for Irish"
+    message "Fixing plurals info for Irish"
     sed -i 's/\"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n\"/"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4;\\n"/g' $OUTPUT_DIRECTORY/po/ga.po
 fi
 if test -f $OUTPUT_DIRECTORY/po/ang.po && ! grep "Plural-Forms: nplurals=3" $OUTPUT_DIRECTORY/po/ang.po >/dev/null; then
-    echo "Adding plurals info for Old English (futhorc)"
+    message "Adding plurals info for Old English (futhorc)"
     sed -i 's/\(Language: ang.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang.po
 fi
 if test -f $OUTPUT_DIRECTORY/po/ang@latin.po && ! grep "Plural-Forms: nplurals=3" $OUTPUT_DIRECTORY/po/ang@latin.po >/dev/null; then
-    echo "Adding plurals info for Old English (latin)"
+    message "Adding plurals info for Old English (latin)"
     sed -i 's/\(Language: ang@latin.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang@latin.po
 fi
 
 # Kill cruft
-echo ""
-echo "Killing cruft..."
+message ""
+message "Killing cruft..."
 rm -f $OUTPUT_DIRECTORY/po/*gmo
 rm -f $OUTPUT_DIRECTORY/po/Makefile
 rm -f $OUTPUT_DIRECTORY/po/remove-potcdate.sed
 
 # Done!
-echo ""
-echo "Done."
+message ""
+message "Done."
