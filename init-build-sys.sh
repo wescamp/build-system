@@ -300,47 +300,36 @@ verbose_message "... with 'for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do msgin
 for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
     if test ! -f $OUTPUT_DIRECTORY/po/$i.po; then
         echo "Creating $i.po"
-        msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot 2>/dev/null || echo "Failed to create $i.po" >&2;
-    #else
-    #    echo "not creating ${OUTPUT_DIRECTORY}/po/${i}.po because it exists and we're in update mode"
+        if test "x$i" = "xen_GB" -o "x$i" = "xen@shaw"; then
+            # Hack to generate en_GB.po and en@shaw.po files without automatic translations
+            # Use de, for it has similar plurals info
+            msginit -l de --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot --output $i.po 2>/dev/null || echo "Failed to create $i.po" >&2;
+        elif test $i = "fur_IT" -o $i = "nb_NO"; then
+            # Gettext refuses to use the suffix, so override it
+            msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot --output $i.po 2>/dev/null || echo "Failed to create $i.po" >&2;
+        else
+            msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot 2>/dev/null || echo "Failed to create $i.po" >&2;
+        fi
     fi
 done
 
-if [ "${UPDATE}" = "no" ]; then
-    # Hack to generate en_GB.po and en@shaw.po files without automatic translations
-    echo ""
-    echo "Generating en_GB.po and en@shaw.po files without automatic translations..."
-    rm -f $OUTPUT_DIRECTORY/po/en_GB.po
-    rm -f $OUTPUT_DIRECTORY/po/en@shaw.po
-    # Copy de.po, for it has similar plurals info
-    cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en_GB.po
-    cp $OUTPUT_DIRECTORY/po/de.po $OUTPUT_DIRECTORY/po/en@shaw.po
-    # Replace 'de' with the proper locales within the files
+# Hack to ensure that the hacked po files contain the right language
+echo ""
+if test -f $OUTPUT_DIRECTORY/po/en_GB.po; then
+    echo "Fixing language of en_GB.po"
     sed -i 's/\"Language: de\\n\"/\"Language: en_GB\\n\"/g' $OUTPUT_DIRECTORY/po/en_GB.po
+fi
+if test -f $OUTPUT_DIRECTORY/po/en@shaw.po; then
+    echo "Fixing language of en@shaw.po"
     sed -i 's/\"Language: de\\n\"/\"Language: en@shaw\\n\"/g' $OUTPUT_DIRECTORY/po/en@shaw.po
 fi
-
-# Hack to ensure that fur_IT.po and nb_NO.po are made
-echo ""
-if test -f $OUTPUT_DIRECTORY/po/fur.po; then
-    if test ! -f $OUTPUT_DIRECTORY/po/fur_IT.po; then
-        echo "Renaming fur.po"
-        mv $OUTPUT_DIRECTORY/po/fur.po fur_IT.po
-        sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
-    else
-        echo "fur_IT.po already existed. Deleting fur.po" >&2
-        rm $OUTPUT_DIRECTORY/po/fur.po
-    fi
+if test -f $OUTPUT_DIRECTORY/po/fur_IT.po; then
+    echo "Fixing language of fur_IT.po"
+    sed -i 's/\"Language: fur\\n\"/\"Language: fur_IT\\n\"/g' $OUTPUT_DIRECTORY/po/fur_IT.po
 fi
-if test -f $OUTPUT_DIRECTORY/po/nb.po; then
-    if test ! -f $OUTPUT_DIRECTORY/po/nb_NO.po; then
-        echo "Renaming nb.po"
-        mv $OUTPUT_DIRECTORY/po/nb.po nb_NO.po
-        sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
-    else
-        echo "nb_NO.po already existed. Deleting nb.po" >&2
-        rm $OUTPUT_DIRECTORY/po/nb.po
-    fi
+if test -f $OUTPUT_DIRECTORY/po/nb_NO.po; then
+    echo "Fixing language of nb_NO.po"
+    sed -i 's/\"Language: nb\\n\"/\"Language: nb_NO\\n\"/g' $OUTPUT_DIRECTORY/po/nb_NO.po
 fi
 
 # Fix plurals info for Irish
