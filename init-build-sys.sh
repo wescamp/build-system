@@ -36,7 +36,7 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		--help          | -h       Displays this information and exits.
 		--verbose       | -v       Enables extra information.
 
-		Supported versions:
+		Version switches:
 
 		--1.0
 		--1.2
