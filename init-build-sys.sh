@@ -34,7 +34,6 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		Options:
 
 		--force         | -f       Overwrite files/directories normally created by this script, if any exist.
-		--update        | -u       Update the files created by this script, do not perform actions that should only happen once.
 		--help          | -h       Displays this information and exits.
 		--verbose       | -v       Enables extra information.
 
@@ -94,23 +93,6 @@ check_for_perl_wmlxgettext()
     wmlxgettext | head -n 3 | grep "PACKAGE VERSION" > /dev/null || need_perl_wmlxgettext
 }
 
-# Checks to see if something the script is about to create exists; if that something exists, and if --force/-f is
-# not enabled, abort
-check_for_file()
-{
-    if [ "${UPDATE}" = "yes" ]; then
-        if [ ! -e "$1" ]; then
-            echo "File/directory '$1' does not exist while updating; aborting..." >&2
-            exit 1
-        fi
-    elif [ "${FORCE}" = "no" ]; then
-        if [ -e "$1" ]; then
-            echo "File/directory '$1' exists; --force/-f not enabled; aborting..." >&2
-            exit 1
-        fi
-    fi
-}
-
 message()
 {
     if [ "${QUIET}" = "no" ]; then
@@ -140,12 +122,6 @@ VERBOSE="no"
 # Disable quietness by default
 QUIET="no"
 
-# Disable force by default
-FORCE="no"
-
-# Disable update by default
-UPDATE="no"
-
 # Input/output
 OUTPUT_DIRECTORY="null"
 INPUT_DIRECTORY="null"
@@ -159,17 +135,8 @@ VERSION="null"
 # Parse parameters
 while [ "${1}" != "" ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; do
 
-    # Determine whether or not to enable force
-    if [ "${1}" = "--force" ] || [ "${1}" = "-f" ]; then
-        FORCE="yes"
-        shift
-
-    elif [ "${1}" = "--update" ] || [ "${1}" = "-u" ]; then
-        UPDATE="yes"
-        shift
-
     # Determine whether or not to enable more information
-    elif [ "${1}" = "--verbose" ] || [ "${1}" = "-v" ]; then
+    if [ "${1}" = "--verbose" ] || [ "${1}" = "-v" ]; then
         VERBOSE="yes"
         shift
 
@@ -252,9 +219,6 @@ source $MY_DIRECTORY/language-codes
 message ""
 message "Creating the build system in $OUTPUT_DIRECTORY..."
 
-# Check to see if a 'po' directory already exists
-check_for_file "$OUTPUT_DIRECTORY/po"
-
 # Move templates to destination
 cp -rf $MY_DIRECTORY/templates/* $OUTPUT_DIRECTORY/
 
@@ -263,7 +227,6 @@ message "Entering $OUTPUT_DIRECTORY..."
 message ""
 cd $OUTPUT_DIRECTORY
 
-check_for_file "po/LINGUAS"
 message "Creating 'LINGUAS' in $OUTPUT_DIRECTORY/po..."
 echo $LINGUAS > $OUTPUT_DIRECTORY/po/LINGUAS
 
