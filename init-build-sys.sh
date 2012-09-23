@@ -48,7 +48,7 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 
 		This script should be run in the directory that contains the target addon's directory.
 
-		Report any issues to Espreon.
+		Report any issues to AI0867 and Espreon.
 
 
 		NOTES FOR ACTUAL USAGE:
