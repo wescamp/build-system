@@ -249,7 +249,10 @@ cd $OUTPUT_DIRECTORY
 if test ! -f $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; then
     message ""
     message "Generating the pot using wmlxgettext..."
-    wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot || echo 'wmlxgettext failed!' >&2
+    if ! wmlxgettext --domain=wesnoth-$ADDON_DIRECTORY_NAME --directory=. `sh $OUTPUT_DIRECTORY/po/FINDCFG` > $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot; then
+        echo 'wmlxgettext failed!' >&2
+        exit 6
+    fi
 
     verbose_message "Filling in the Project-Id-Version field..."
     sed -i "s/PACKAGE VERSION/$ADDON_DIRECTORY_NAME-$VERSION/g" $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot
