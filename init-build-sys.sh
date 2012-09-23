@@ -33,7 +33,6 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 
 		Options:
 
-		--force         | -f       Overwrite files/directories normally created by this script, if any exist.
 		--help          | -h       Displays this information and exits.
 		--verbose       | -v       Enables extra information.
 
