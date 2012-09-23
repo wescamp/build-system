@@ -310,12 +310,12 @@ for i in `cat $OUTPUT_DIRECTORY/po/LINGUAS`; do
         if test "x$i" = "xen_GB" -o "x$i" = "xen@shaw"; then
             # Hack to generate en_GB.po and en@shaw.po files without automatic translations
             # Use de, for it has similar plurals info
-            msginit -l de --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot --output $i.po 2>/dev/null || echo "Failed to create $i.po" >&2;
+            msginit -l de --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot --output $i.po 2>&1|grep -vE '^Created' >&2 && exit 8;
         elif test $i = "fur_IT" -o $i = "nb_NO"; then
             # Gettext refuses to use the suffix, so override it
-            msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot --output $i.po 2>/dev/null || echo "Failed to create $i.po" >&2;
+            msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot --output $i.po 2>&1|grep -vE '^Created' >&2 && exit 8;
         else
-            msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot 2>/dev/null || echo "Failed to create $i.po" >&2;
+            msginit -l $i --no-translator --input $OUTPUT_DIRECTORY/po/wesnoth-$ADDON_DIRECTORY_NAME.pot 2>&1|grep -vE '^Created' >&2 && exit 8;
         fi
     fi
 done
