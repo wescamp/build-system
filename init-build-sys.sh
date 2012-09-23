@@ -46,8 +46,6 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		--1.10
 		--trunk
 
-		Please note that 'support' for 1.0 and 1.2 is merely there for fun, thus we do not know if it truly works; if you find that what this script generates for 1.0/1.2 does not work, do not get mad.
-
 		This script should be run in the directory that contains the target addon's directory.
 
 		Report any issues to Espreon.
@@ -86,7 +84,7 @@ If you do not have it, you can get it from here: http://svn.gna.org/viewcvs/*che
     exit 7
 }
 
-# Yes, I know that this is a bit hacky, but... yeahz...
+# A bit hacky, but meh
 check_for_perl_wmlxgettext()
 {
     wmlxgettext | head -n 3 | grep "PACKAGE VERSION" > /dev/null || need_perl_wmlxgettext
@@ -145,7 +143,6 @@ while [ "${1}" != "" ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; do
         shift
 
     # Set version that the target addon uses
-    # Yes, I am such a noob
     elif [ "${1}" = "--trunk" ]; then
         VERSION="trunk"
         shift
