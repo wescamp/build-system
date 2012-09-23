@@ -318,13 +318,6 @@ if test -f $OUTPUT_DIRECTORY/po/ang@latin.po && ! grep "Plural-Forms: nplurals=3
     sed -i 's/\(Language: ang@latin.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang@latin.po
 fi
 
-# Kill cruft
-message ""
-message "Killing cruft..."
-rm -f $OUTPUT_DIRECTORY/po/*gmo
-rm -f $OUTPUT_DIRECTORY/po/Makefile
-rm -f $OUTPUT_DIRECTORY/po/remove-potcdate.sed
-
 # Done!
 message ""
 message "Done."
