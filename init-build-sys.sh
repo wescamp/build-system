@@ -25,7 +25,7 @@ __CMDLINE=$*
 # Spit out help
 if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 	cat <<- EOD
-		Usage: init-build-sys.sh [options] [version] ADDON_DIRECTORY OUTPUT_DIRECTORY
+		Usage: init-build-sys.sh [options] [version_switch] ADDON_DIRECTORY OUTPUT_DIRECTORY
 
 		init-build-sys.sh generates the translation build system for addons as well as po files.
 
