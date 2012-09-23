@@ -25,7 +25,7 @@ __CMDLINE=$*
 # Spit out help
 if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 	cat <<- EOD
-		Usage: init-build-sys.sh [options] [version] ADDON_DIRECTORY OUTPUT_DIRECTORY
+		Usage: init-build-sys.sh [options] [version_switch] ADDON_DIRECTORY OUTPUT_DIRECTORY
 
 		init-build-sys.sh generates the translation build system for addons as well as po files.
 
@@ -33,11 +33,10 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 
 		Options:
 
-		--force         | -f       Overwrite files/directories normally created by this script, if any exist.
 		--help          | -h       Displays this information and exits.
 		--verbose       | -v       Enables extra information.
 
-		Supported versions:
+		Version switches:
 
 		--1.0
 		--1.2
@@ -47,11 +46,9 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		--1.10
 		--trunk
 
-		Please note that 'support' for 1.0 and 1.2 is merely there for fun, thus we do not know if it truly works; if you find that what this script generates for 1.0/1.2 does not work, do not get mad.
-
 		This script should be run in the directory that contains the target addon's directory.
 
-		Report any issues to Espreon.
+		Report any issues to AI0867 and Espreon.
 
 
 		NOTES FOR ACTUAL USAGE:
@@ -87,7 +84,7 @@ If you do not have it, you can get it from here: http://svn.gna.org/viewcvs/*che
     exit 7
 }
 
-# Yes, I know that this is a bit hacky, but... yeahz...
+# A bit hacky, but meh
 check_for_perl_wmlxgettext()
 {
     wmlxgettext | head -n 3 | grep "PACKAGE VERSION" > /dev/null || need_perl_wmlxgettext
@@ -146,7 +143,6 @@ while [ "${1}" != "" ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; do
         shift
 
     # Set version that the target addon uses
-    # Yes, I am such a noob
     elif [ "${1}" = "--trunk" ]; then
         VERSION="trunk"
         shift
@@ -318,13 +314,6 @@ if test -f $OUTPUT_DIRECTORY/po/ang@latin.po && ! grep "Plural-Forms: nplurals=3
     message "Adding plurals info for Old English (latin)"
     sed -i 's/\(Language: ang@latin.*\\n"\)/&\n"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\\n"/' $OUTPUT_DIRECTORY/po/ang@latin.po
 fi
-
-# Kill cruft
-message ""
-message "Killing cruft..."
-rm -f $OUTPUT_DIRECTORY/po/*gmo
-rm -f $OUTPUT_DIRECTORY/po/Makefile
-rm -f $OUTPUT_DIRECTORY/po/remove-potcdate.sed
 
 # Done!
 message ""
