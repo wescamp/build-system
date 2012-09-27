@@ -1,5 +1,5 @@
-# trunk and 1.10 (for now)
-if [ "${VERSION}" = "trunk" ] || [ "${VERSION}" = "1.10" ]; then
+# 1.12 and 1.10 (for now)
+if [ "${VERSION}" = "1.12" ] || [ "${VERSION}" = "1.10" ]; then
   LINGUAS="af ang ang@latin ar bg ca ca_ES@valencia cs da de el en_GB en@shaw es eo et eu fi fr fur_IT ga gl he hr hu id is it ja ko la lt lv mk mr nl nb_NO pl pt pt_BR racv ro ru sk sl sr sr@ijekavian sr@ijekavianlatin sr@latin sv tl tr uk vi zh_CN zh_TW"
 fi
 

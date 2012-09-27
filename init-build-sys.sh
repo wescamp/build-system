@@ -44,7 +44,7 @@ if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 		--1.6
 		--1.8
 		--1.10
-		--trunk
+		--1.12
 
 		This script should be run in the directory that contains the target addon's directory.
 
@@ -143,8 +143,8 @@ while [ "${1}" != "" ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; do
         shift
 
     # Set version that the target addon uses
-    elif [ "${1}" = "--trunk" ]; then
-        VERSION="trunk"
+    elif [ "${1}" = "--1.12" ]; then
+        VERSION="1.12"
         shift
 
     elif [ "${1}" = "--1.10" ]; then
