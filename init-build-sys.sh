@@ -2,8 +2,8 @@
 #
 # Requires: Bash, gettext, and wmlxgettext (the Perl version)
 #
-# lbundle.py:
-# http://websvn.kde.org/*checkout*/trunk/l10n-support/scripts/lbundle-check.py
+# lbundle-check.py:
+# https://gitorious.org/scripty/scripty/source/master:l10n-support/lbundle-check.py
 #
 # wmlxgettext (Perl):
 # http://svn.gna.org/viewcvs/*checkout*/wesnoth/trunk/utils/wmlxgettext
@@ -105,7 +105,7 @@ verbose_message()
 }
 
 check_for_perl_wmlxgettext
-# check_for_thingy "lbundle-check.py" "http://websvn.kde.org/*checkout*/trunk/l10n-support/scripts/lbundle-check.py"
+# check_for_thingy "lbundle-check.py" "https://gitorious.org/scripty/scripty/source/master:l10n-support/lbundle-check.py"
 
 # Set some variables
 
